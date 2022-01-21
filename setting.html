@@ -1,0 +1,766 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+
+    <!-- PiroLab Hydroponics CSS -->
+    <link rel="stylesheet" href="pirolab_hydroponics.css">
+    <link rel="shortcut icon" href="favicon.ico"/>
+    <title>PiroLab Hydroponics - Setting</title>
+
+<style type="text/css">
+
+
+</style>
+  </head>
+  <body>
+
+<div class="content_frame">
+  <!-- 左パネル -->
+  <div class="content_left">
+    <div class="content_top bg-dark">
+      <button class="btn btn-light m-2 py-1" onclick="history.back()"><i class="fa fa-arrow-circle-left fa-lg">戻る</i></button>
+    </div>
+    <ul class="nav nav-tabs nav-pills flex-sm-column small">
+      <li class="nav-item">
+        <a href="#setting_pane0" class="nav-link active" data-toggle="tab">基本情報</a>
+      </li>
+      <li class="nav-item">
+        <a href="#setting_pane1" class="nav-link" data-toggle="tab">定時処理</a>
+      </li>
+      <li class="nav-item">
+        <a href="#setting_pane2" class="nav-link" data-toggle="tab">ポンプ</a>
+      </li>
+      <li class="nav-item">
+        <a href="#setting_pane3" class="nav-link" data-toggle="tab">カメラ</a>
+      </li>
+      <li class="nav-item">
+        <a href="#setting_pane4" class="nav-link" data-toggle="tab">センサー閾値</a>
+      </li>
+      <li class="nav-item">
+        <a href="#setting_pane5" class="nav-link" data-toggle="tab">バージョン</a>
+      </li>
+      <li class="nav-item">
+        <a href="#setting_pane6" class="nav-link" data-toggle="tab">デバッグ用</a>
+      </li>
+    </ul>
+  </div>
+
+  <!-- 右パネル -->
+  <div class="content_right tab-content">
+    <div id="setting_pane0" class="tab-pane active content_full">
+    <div class="content_top bg-dark">
+      </div>
+      <div class="content_main">
+        <i class="fa fa-leaf text-secondary m-2"><span class=""> 基本情報</span></i>
+        <table class="table table-striped text-center">
+          <thead>
+            <tr class="bg-secondary text-white">
+              <th>項目</th>
+              <th>設定値</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>データID</td><td><span id="myid"></span></td></tr>
+            <tr><td>名前</td><td><span id="myname"></span></td></tr>
+            <tr><td>メモ</td><td><span id="memo"></span></td></tr>
+            <tr><td>開始日時</td><td><span id="created"></span></td></tr>
+            <tr><td>終了日時</td><td><span id="finished"></span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div id="setting_pane1" class="tab-pane content_full">
+    <div class="content_top bg-dark">
+      </div>
+      <div class="content_main">
+        <i class="fa fa-edit text-secondary m-2"><span class=""> 定時処理の設定</span></i>
+        <table class="table table-striped text-center">
+          <thead>
+            <tr class="bg-secondary text-white">
+              <th>項目</th>
+              <th>設定値</th>
+            </tr>
+          </thead>
+          <tbody>
+           <form id="schedule_form">
+            <tr>
+              <td>時間の範囲</td>
+              <td>
+                <label class="m-0">
+                <input type="checkbox" name="active" value="1">有効</label>
+                <input class="input_number" name="routine_start" type="text" value=""> 時 ～
+                <input class="input_number" name="routine_end" type="text" value=""> 時
+              </td>
+            </tr>
+            <tr>
+              <td>稼働時間</td>
+              <td>
+                <input class="input_number" name="routine_time" type="text" value=""> 分間
+              </td>
+            </tr>
+            <tr>
+              <td>カメラ撮影</td>
+              <td>
+                <input class="input_number" name="camera1" type="text" value=""> 時、
+                <input class="input_number" name="camera2" type="text" value=""> 時、
+                <input class="input_number" name="camera3" type="text" value=""> 時
+              </td>
+            </tr>
+            <tr>
+              <td>定期報告</td>
+              <td>
+                <label class="m-0"><input type="checkbox" name="report_active" value="1">有効</label>
+                <input class="input_number" name="report_time" type="text" value=""> 時
+              </td>
+            </tr>
+            <tr>
+            <tr>
+              <td>緊急報告</td>
+              <td>
+                <label class="m-0"><input type="checkbox" name="emergency_active" value="1">有効</label>
+              </td>
+            </tr>
+            <tr>
+           </form>
+          </tbody>
+          <tfoot>
+            <tr class="bg-secondary">
+              <td colspan="2">
+                <button class="btn btn-success mx-4 py-1" onclick="scheduleCommitClick()"><i class="fa fa-check fa-lg">反映する</i></button>
+                <button class="btn btn-danger  mx-4 py-1" onclick="scheduleCancelClick()"><i class="fa fa-close fa-lg">元に戻す</i></button>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+
+    <div id="setting_pane2" class="tab-pane content_full">
+    <div class="content_top bg-dark">
+      </div>
+      <div class="content_main">
+        <div class="content_control">
+          <i class="fa fa-refresh text-secondary m-2"> 循環</i>
+          <div class="mt-1">
+            <button class="btn btn-primary command_button mx-3" onclick="pumpButtonClick(-1)">連続</button>
+            <button class="btn btn-danger command_button" onclick="pumpButtonClick(0)">停止</button>
+          </div>
+          <div class="mt-1">
+            <button class="btn btn-primary command_button ml-3" onclick="pumpButtonClick(10)">10秒間</button>
+            <button class="btn btn-primary command_button" onclick="pumpButtonClick(300)">５分間</button>
+            <button class="btn btn-primary command_button" onclick="pumpButtonClick(600)">10分間</button>
+            <button class="btn btn-primary command_button" onclick="pumpButtonClick(1200)">20分間</button>
+          </div>
+        </div>
+        <div class="content_countdown">
+          <div id="pump_working" class="mt-1">
+            <i class="fa fa-refresh fa-spin text-primary"></i>
+            <div id="pump_countdown"></div>
+          </div>
+          <div id="pump_stop" class="mt-1">
+            <i class="fa fa-refresh text-secondary"></i>
+            <div>停止</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="setting_pane3" class="tab-pane content_full">
+      <div class="content_picture" id="picture_frame">
+        <span class="picture_datetime">撮影：<span id="picture_timestamp">no data</span></span>
+      </div>
+      <div class="content_bottom">
+        <div class="content_control">
+          <i class="fa fa-camera text-secondary m-2"> カメラ撮影</i>
+          <div class="mt-1">
+            <button class="btn btn-primary command_button mx-3" onclick="cameraButtonClick(0)">今すぐ</button>
+            <button class="btn btn-primary command_button" onclick="cameraButtonClick(5)">５秒後</button>
+            <button class="btn btn-primary command_button" onclick="cameraButtonClick(10)">10秒後</button>
+            <button class="btn btn-danger command_button ml-3" onclick="cameraButtonClick(-1)">中止</button>
+          </div>
+        </div>
+
+        <div class="content_countdown">
+          <div class="mt-1" id="picture_save_buttons">
+            <button class="btn btn-primary command_button" onclick="saveButtonClick(1)">保存</button>
+            <button class="btn btn-danger command_button ml-3" onclick="saveButtonClick(0)">破棄</button>
+          </div>
+          <span id="camera_countdown"></span>
+        </div>
+      </div>
+    </div>
+
+    <div id="setting_pane4" class="tab-pane content_full">
+    <div class="content_top bg-dark">
+      </div>
+      <div class="content_main">
+        <i class="fa fa-wrench text-secondary m-2"> センサー閾値の設定</i>
+        <table class="table text-center">
+          <thead>
+            <tr class="bg-secondary text-white">
+              <th>とても低い</th>
+              <th>やや低い</th>
+              <th>項目</th>
+              <th>やや高い</th>
+              <th>とても高い</th>
+            </tr>
+          </thead>
+          <tbody>
+           <form id="sensor_form">
+            <tr>
+              <td class="bg-danger" ><input class="input_number" type="text" value="" name="air_temp_vlow"></td>
+              <td class="bg-warning"><input class="input_number" type="text" value="" name="air_temp_low"></td>
+              <td>気温（℃）</td>
+              <td class="bg-warning"><input class="input_number" type="text" value="" name="air_temp_high"></td>
+              <td class="bg-danger" ><input class="input_number" type="text" value="" name="air_temp_vhigh"></td>
+            </tr>
+            <tr>
+              <td class="bg-danger" ><input class="input_number" type="text" value="" name="humidity_vlow"></td>
+              <td class="bg-warning"><input class="input_number" type="text" value="" name="humidity_low"></td>
+              <td>湿度（％）</td>
+              <td class="bg-secondary">－</td>
+              <td class="bg-secondary">－</td>
+            </tr>
+            <tr>
+              <td class="bg-danger" ><input class="input_number" type="text" value="" name="water_temp_vlow"></td>
+              <td class="bg-warning"><input class="input_number" type="text" value="" name="water_temp_low"></td>
+              <td>水温（℃）</td>
+              <td class="bg-warning"><input class="input_number" type="text" value="" name="water_temp_high"></td>
+              <td class="bg-danger" ><input class="input_number" type="text" value="" name="water_temp_vhigh"></td>
+            </tr>
+            <tr>
+              <td class="bg-danger" ><input class="input_number" type="text" value="" name="water_level_vlow"></td>
+              <td class="bg-warning"><input class="input_number" type="text" value="" name="water_level_low"></td>
+              <td>水位（％）</td>
+              <td class="bg-secondary">－</td>
+              <td class="bg-secondary">－</td>
+            </tr>
+            <tr>
+              <td class="bg-danger" ><input class="input_number" type="text" value="" name="tds_level_vlow"></td>
+              <td class="bg-warning"><input class="input_number" type="text" value="" name="tds_level_low"></td>
+              <td>濃度（EC）</td>
+              <td class="bg-warning"><input class="input_number" type="text" value="" name="tds_level_high"></td>
+              <td class="bg-danger" ><input class="input_number" type="text" value="" name="tds_level_vhigh"></td>
+            </tr>
+           </form>
+          </tbody>
+          <tfoot>
+            <tr class="bg-secondary">
+              <td colspan="5">
+                <button class="btn btn-success mx-4 py-1" onclick="sensorCommitClick()"><i class="fa fa-check fa-lg">反映する</i></button>
+                <button class="btn btn-danger  mx-4 py-1" onclick="sensorCancelClick()"><i class="fa fa-close fa-lg">元に戻す</i></button>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+
+    <div id="setting_pane5" class="tab-pane content_full">
+    <div class="content_top bg-dark">
+      </div>
+      <div class="content_main">
+        <i class="fa fa-question-circle text-secondary m-2"> バージョン情報</i>
+        <div class="content_logo my-4">
+        </div>
+        <div class="text-center">
+          水耕装置ソフトウェア<br/>
+          <span id="version"></span>
+        </div>
+      </div>
+    </div>
+
+    <div id="setting_pane6" class="tab-pane content_full">
+    <div class="content_top bg-dark">
+      </div>
+      <div class="content_main">
+        <i class="fa fa-bug text-secondary m-2"> デバッグ用</i>
+        <div class="mt-1">
+          <button onclick="ledButtonClick(0)" class="btn btn-primary command_button ml-3">ON</button>
+          <button onclick="ledButtonClick(1)" class="btn btn-primary command_button">OFF</button>
+          <button onclick="ledButtonClick(2)" class="btn btn-success command_button ml-3">ON</button>
+          <button onclick="ledButtonClick(3)" class="btn btn-success command_button">OFF</button>
+          <button onclick="ledButtonClick(4)" class="btn btn-warning command_button ml-3">ON</button>
+          <button onclick="ledButtonClick(5)" class="btn btn-warning command_button">OFF</button>
+          <button onclick="ledButtonClick(6)" class="btn btn-danger command_button ml-3">ON</button>
+          <button onclick="ledButtonClick(7)" class="btn btn-danger command_button">OFF</button>
+        </div>
+        <div class="mt-3">
+         <span>
+          <button onclick="debugButtonMeasure(0)" class="btn btn-secondary command_button">温湿度</button>
+          <button onclick="debugButtonMeasure(1)" class="btn btn-secondary command_button">水温</button>
+          <button onclick="debugButtonMeasure(2)" class="btn btn-secondary command_button">水位</button>
+          <button onclick="debugButtonMeasure(3)" class="btn btn-secondary command_button">濃度</button>
+          <button onclick="debugButtonMeasure(4)" class="btn btn-secondary command_button">明るさ</button>
+         </span>
+         <span class="ml-2">
+          <span class="small_font">Subp</span>
+          <button onclick="debugButtonSubPump('level')" class="btn btn-secondary command_button">状態</button>
+          <button onclick="debugButtonSubPump('refill')" class="btn btn-secondary command_button">補充</button>
+          <button onclick="debugButtonSubPump('on')" class="btn btn-secondary command_button">ON</button>
+<!---
+--->
+          <button onclick="debugButtonSubPump('off')" class="btn btn-secondary command_button">OFF</button>
+         </span>
+         <span class="ml-4">
+          <button onclick="debugButtonRoutine()" class="btn btn-secondary command_button">定時処理</button>
+         </span>
+        </div>
+        <div class="content_message border border-dark" id="debug_message"></div>
+        <div>
+          <button onclick="clearMessageClick()" class="btn btn-secondary command_button">clear</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-sm">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="text-primary modal_message">
+          <i class="fa fa-comment" id="modal_result" ></i> 
+        </div>
+        <div class='text-right'>(<span id='modal_datetime'></span>)</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">閉じる</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+    <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+
+    <!-- font awesome --->
+    <script src="https://kit.fontawesome.com/e84a7fa652.js" crossorigin="anonymous"></script>
+    <script src="hydro_common.js"></script>
+<script>
+// グローバル変数
+let timerIdPump = 0;
+let timerIdCamera = 0;
+const version = 'Ver.2021.08.02'
+
+//
+// 初期化処理 jQueryの書き方
+// （現在値の取得・反映処理）
+//
+$(function(){
+  $('#version').text(version);
+
+  // 基本設定
+  getBasic();
+
+  //定時処理
+  getSchedule();
+
+  //ポンプ
+  getPumpSeconds()
+
+  //カメラ
+  $('#picture_save_buttons').hide();
+
+  //センサー閾値
+  getSensor();
+});
+
+//
+// 基本情報の取得
+//
+function getBasic() {
+  const url = 'cgi-bin/get_basic.py';
+  urlGet(url, {}, (data) => {
+    $('#myid').text(data['myid']);
+    $('#myname').text(data['myname']);
+    $('#memo').text(data['memo']);
+    $('#created').text(data['created']);
+    $('#finished').text(data['finished']);
+  });
+}
+
+//
+// 定時処理の設定を「反映する」ボタン
+//
+function scheduleCommitClick() {
+  const url = 'cgi-bin/post_schedule.py';
+  const scheduleForm = document.querySelector('#schedule_form');
+  const formData = new FormData(scheduleForm);
+
+  // チェックボックス未チェック時の値の追加
+  if (!formData.has("active"))
+    formData.set("active", "0");
+  if (!formData.has("report_active"))
+    formData.set("report_active", "0");
+  if (!formData.has("emergency_active"))
+    formData.set("emergency_active", "0");
+
+  // カメラ撮影なしにしたいとき
+  if (!formData.has("camera1"))
+    formData.set("camera1", "-1");
+  if (!formData.has("camera2"))
+    formData.set("camera2", "-1");
+  if (!formData.has("camera3"))
+    formData.set("camera3", "-1");
+
+  urlPost(url, formData, (data) => {
+    getSchedule();
+    showModalResult(data)
+  });
+}
+
+//
+// 定時処理の設定を「元に戻す」ボタン
+// （resetではなくデータベースから取得した値に戻す必要がある）
+//
+function scheduleCancelClick() {
+  getSchedule();
+}
+
+function getSchedule() {
+  const url = 'cgi-bin/get_schedule.py';
+  urlGet(url, {}, (data) => {
+    $('input[name="active"]').prop("checked", data['active']);
+    $('input[name="routine_start"]').val(data['routine_start']);
+    $('input[name="routine_end"]').val(data['routine_end']);
+    $('input[name="routine_time"]').val(data['routine_time']);
+    $('input[name="camera1"]').val(data['camera1']);
+    $('input[name="camera2"]').val(data['camera2']);
+    $('input[name="camera3"]').val(data['camera3']);
+    $('input[name="report_active"]').prop("checked", data['report_active']);
+    $('input[name="report_time"]').val(data['report_time']);
+    $('input[name="emergency_active"]').prop("checked", data['emergency_active']);
+  });
+}
+
+//
+// ポンプ動作ボタン
+//
+function pumpButtonClick(seconds) {
+  // とりあえずカウントダウン開始
+  pumpStatusUpdate(seconds);
+  setPumpSeconds(seconds);
+}
+
+function pumpStatusUpdate(seconds)
+{
+  // いったん停止
+  pumpCountdownStop();
+
+  // カウントダウン表示
+  if (seconds == 0) {
+    // 停止
+    $('#pump_working').hide();
+    $('#pump_stop').show();
+  } else {
+    $('#pump_working').show();
+    $('#pump_stop').hide();
+
+    if (seconds == -1) {
+      // 連続動作
+      $('#pump_countdown').text("連続");
+    } else {
+      // カウントダウン開始
+      pumpCountdownStart(seconds);
+    }
+  }
+}
+
+function getPumpSeconds()
+{
+  const url = 'cgi-bin/get_pump_seconds.py';
+  now = new Date();
+
+//  urlGet(url, {'start_time': now.toLocaleString()}, (data) => {
+  urlGet(url, {'start_time': Math.floor(now.getTime()/1000)}, (data) => {
+    seconds = data['seconds'];
+    if (seconds < 0) {
+      seconds = -1
+    }
+
+    pumpStatusUpdate(seconds)
+  });
+}
+
+function setPumpSeconds(seconds)
+{
+  // サーバーへポンプ動作秒数を設定
+  req = {};
+  req['seconds'] = seconds;
+  const url = 'cgi-bin/set_pump_seconds.py';
+  urlGet(url, req, (data) => {
+    if (data['result'] == 'success') {
+      // 成功時は特に処理なし
+    } else {
+      // 失敗時はカウントダウンを止めてポップアップ表示
+      pumpCountdownStop();
+      showModalResult(data)
+    }
+  });
+}
+
+function pumpCountdownStart(seconds) {
+
+  if (seconds <= 0) {
+    clearInterval(timerIdPump);
+    $('#pump_countdown').text("");
+  } else {
+    // 最初の表示
+    pumpCountdownPrint(seconds);
+
+    // 開始日時を設定
+    let dt = new Date();
+    // 終了時刻を開始日時+カウントダウンする秒数に設定
+    let endDt = new Date(dt.getTime() + seconds * 1000);
+
+    // タイマー設定
+    timerIdPump = setInterval(function(){
+      dt = new Date();
+      diff = (endDt.getTime() - dt.getTime()) / 1000;
+
+      if (diff <= 0) {
+        pumpCountdownStop();
+        setPumpSeconds(0);
+        $('#pump_working').hide();
+        $('#pump_stop').show();
+      } else {
+        pumpCountdownPrint(diff);
+      }
+    }, 500);
+  }
+}
+
+function pumpCountdownStop() {
+  clearInterval(timerIdPump);
+}
+
+function pumpCountdownPrint(seconds) {
+  seconds += 0.9;
+  let min = parseInt(seconds / 60);
+  let sec = parseInt(seconds % 60);
+  if (sec < 10) {
+    sec = '0' + sec;
+  }
+  $('#pump_countdown').text(min + ":" + sec);
+}
+
+//
+// カメラ撮影ボタン
+//
+function cameraButtonClick(seconds) {
+
+  cameraCountdownStop();
+  $('#picture_save_buttons').hide();
+
+  if (seconds == -1) {
+    //中止
+    $('#camera_countdown').text("");
+  } else if (seconds == 0) {
+    //今すぐ
+    $('#camera_countdown').text("");
+    takePicture();
+  } else {
+    //タイマー撮影
+    $('#camera_countdown').text(seconds);
+    cameraCountdownStart(seconds);
+  }
+}
+
+function cameraCountdownStart(seconds) {
+
+  if (seconds <= 0) {
+    clearInterval(timerIdCamera);
+    $('#camera_countdown').text("");
+  } else {
+    // 最初の表示
+    updateCountdownCamera(seconds);
+
+    // 開始日時を設定
+    let dt = new Date();
+    // 終了時刻を開始日時+カウントダウンする秒数に設定
+    let endDt = new Date(dt.getTime() + seconds * 1000);
+
+    // タイマー設定
+    timerIdCamera = setInterval(function(){
+      dt = new Date();
+      diff = (endDt.getTime() - dt.getTime()) / 1000;
+      updateCountdownCamera(diff);
+
+      if (diff <= 0) {
+        cameraCountdownStop();
+        takePicture();
+      }
+    }, 500);
+  }
+}
+
+function cameraCountdownStop() {
+  clearInterval(timerIdCamera);
+}
+
+function updateCountdownCamera(seconds) {
+  seconds += 0.9;
+  let sec = parseInt(seconds % 60);
+  if (60 < sec) {
+    sec = 60;  /* 最大60秒 */
+  }
+  $('#camera_countdown').text(sec);
+}
+
+//
+// カメラ撮影リクエスト
+//
+function takePicture()
+{
+  $('#camera_countdown').html('<i class="fa fa-spinner fa-spin "></i>');
+
+  const url = 'cgi-bin/take_tmp_picture.py';
+  urlGet(url, {}, (data) => {
+    // ファイル名が入っていたら成功
+    if (data.filename)
+    {
+      $('#picture_frame').css('background-image', 'url(./tmp/' + data['filename'] + ')');
+      $('#picture_timestamp').text(data['taken']);
+
+      $('#picture_save_buttons').show();
+      $('#camera_countdown').text('');
+    } else {
+      // 失敗
+      $('#picture_save_buttons').hide();
+      $('#camera_countdown').text('error');
+    }
+  });
+}
+
+//
+// 写真保存ボタン
+//
+function saveButtonClick(needed) {
+  if (needed) {
+    // 保存
+    const url = 'cgi-bin/save_tmp_picture.py';
+    urlPost(url, {}, (data) => {
+      showModalResult(data)
+
+      const url = 'cgi-bin/latest_picture.py';
+      urlGet(url);
+    });
+  } else {
+    // 破棄
+    const url = 'cgi-bin/discard_tmp_picture.py';
+    $('#picture_frame').css('background-image', '');
+    $('#picture_timestamp').text('no data');
+  }
+
+  // ボタンは隠す
+  $('#picture_save_buttons').hide();
+}
+
+
+//
+// センサー閾値の設定を「反映する」ボタン
+//
+function sensorCommitClick() {
+  const url = 'cgi-bin/post_sensor.py';
+  const sensorForm = document.querySelector('#sensor_form');
+  const formData = new FormData(sensorForm);
+
+  urlPost(url, formData, (data) => {
+    getSensor();
+    showModalResult(data)
+  });
+}
+
+//
+// センサー閾値の設定を「元に戻す」ボタン
+// （resetではなくデータベースから取得した値に戻す必要がある）
+//
+function sensorCancelClick() {
+  getSensor();
+}
+
+function getSensor() {
+  const url = 'cgi-bin/get_sensor.py';
+  urlGet(url, {}, (data) => {
+    $('input[name="air_temp_vlow"]').val(data['air_temp_vlow']);
+    $('input[name="air_temp_low"]').val(data['air_temp_low']);
+    $('input[name="air_temp_high"]').val(data['air_temp_high']);
+    $('input[name="air_temp_vhigh"]').val(data['air_temp_vhigh']);
+    $('input[name="humidity_vlow"]').val(data['humidity_vlow']);
+    $('input[name="humidity_low"]').val(data['humidity_low']);
+    $('input[name="water_temp_vlow"]').val(data['water_temp_vlow']);
+    $('input[name="water_temp_low"]').val(data['water_temp_low']);
+    $('input[name="water_temp_high"]').val(data['water_temp_high']);
+    $('input[name="water_temp_vhigh"]').val(data['water_temp_vhigh']);
+    $('input[name="water_level_vlow"]').val(data['water_level_vlow']);
+    $('input[name="water_level_low"]').val(data['water_level_low']);
+    $('input[name="tds_level_vlow"]').val(data['tds_level_vlow']);
+    $('input[name="tds_level_low"]').val(data['tds_level_low']);
+    $('input[name="tds_level_high"]').val(data['tds_level_high']);
+    $('input[name="tds_level_vhigh"]').val(data['tds_level_vhigh']);
+  });
+}
+
+function showModalResult(data)
+{
+  $('#modal_result').text(data['result'])
+  $('#modal_datetime').text(data['datetime'])
+  $('#confirmModal').modal()
+}
+
+function ledButtonClick(num) {
+  //サーバーへリクエストを送ってLEDをON/OFFするテスト
+  let ledNum = parseInt(num / 2);
+  let ledState = (num % 2)?'off':'on';
+
+  const url = 'cgi-bin/set_led.py';
+  urlGet(url, {'num': ledNum, 'state': ledState}, (data) => {
+    message = $('#debug_message').text();
+    $('#debug_message').text(message + '-> done');
+  });
+
+  let message = 'ledNum(' + ledNum + ') ' + ledState;
+  let id = "debug_message";
+  $('#' + id).text(message);
+}
+
+function debugButtonMeasure(num) {
+  const url = 'cgi-bin/measure_sensor.py';
+  urlGet(url, {'num': num}, (data) => {
+    $('#debug_message').text(JSON.stringify(data));
+  });
+}
+
+function debugButtonSubPump(request) {
+  const url = 'cgi-bin/ctrl_subpump.py';
+  urlGet(url, {'request': request}, (data) => {
+    $('#debug_message').text(JSON.stringify(data));
+  });
+}
+
+function debugButtonRoutine() {
+  const url = 'cgi-bin/make_report.py';
+  urlGet(url, {}, (data) => {
+    $('#debug_message').text(data['result'] + ", " + data['datetime']);
+  });
+}
+
+function clearMessageClick() {
+  $('#debug_message').text('');
+}
+
+
+</script>
+
+  </body>
+</html>

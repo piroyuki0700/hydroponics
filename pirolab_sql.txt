@@ -1,0 +1,93 @@
+//
+// 水耕装置用データベース
+//
+
+// 基本情報
+DROP TABLE IF EXISTS `setting_basic`;
+CREATE TABLE setting_basic (
+  no int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  myname varchar(32),
+  memo text,
+  created datetime,
+  finished datetime
+);
+
+// SNS情報
+DROP TABLE IF EXISTS `sns_token`;
+CREATE TABLE sns_token (
+  no int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  twitter_api_key varchar(64),
+  twitter_api_secret_key varchar(64),
+  twitter_access_token varchar(64),
+  twitter_access_token_secret varchar(64),
+  line_access_token varchar(64)
+);
+
+// 設定 > 定期処理
+DROP TABLE IF EXISTS `setting_schedule`;
+CREATE TABLE setting_schedule (
+  no int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  active int,
+  routine_start int,
+  routine_end int,
+  routine_time int,
+  camera1 int,
+  camera2 int,
+  camera3 int,
+  report_active int,
+  report_time int,
+  emergency_active int
+);
+
+// 設定 > センサー閾値
+DROP TABLE IF EXISTS `setting_sensor`;
+CREATE TABLE setting_sensor (
+  no int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  air_temp_vlow float,
+  air_temp_low float,
+  air_temp_high float,
+  air_temp_vhigh float,
+  humidity_vlow float,
+  humidity_low float,
+  water_temp_vlow float,
+  water_temp_low float,
+  water_temp_high float,
+  water_temp_vhigh float,
+  water_level_vlow float,
+  water_level_low float,
+  tds_level_vlow float,
+  tds_level_low float,
+  tds_level_high float,
+  tds_level_vhigh float
+);
+
+// 定期処理実施
+DROP TABLE IF EXISTS `report_routine`;
+CREATE TABLE report_routine (
+  no int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  report_time datetime,
+  air_temp float,
+  humidity float,
+  water_temp float,
+  distance float,
+  water_level float,
+  tds_level float,
+  brightness float,
+  picture_no int
+);
+
+// 写真データ
+DROP TABLE IF EXISTS `picture`;
+CREATE TABLE picture (
+  no int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  filename varchar(64),
+  taken datetime
+);
+
+// ポンプ状態
+DROP TABLE IF EXISTS `work_pump`;
+CREATE TABLE work_pump (
+  no int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  active int,
+  end_time datetime
+);
